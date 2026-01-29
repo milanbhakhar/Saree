@@ -50,7 +50,7 @@ export default function Header() {
 
       {/* MAIN HEADER */}
       <div className="w-full sticky top-0 z-50 border-b bg-white">
-        <div className="max-w-[1300px] mx-auto flex items-center justify-between px-4 sm:px-6 py-4">
+        <div className="max-w-[1280px] mx-auto flex items-center justify-between px-4 sm:px-6 py-4">
 
           {/* LEFT - LOGO + HAMBURGER */}
           <div className="flex items-center gap-4">
@@ -64,7 +64,7 @@ export default function Header() {
 
             {/* Logo */}
             <h1 className="text-xl sm:text-2xl font-bold tracking-wide">
-              VASTRIIKA
+              E-COMMERCE
             </h1>
 
             {/* Desktop Menu */}
