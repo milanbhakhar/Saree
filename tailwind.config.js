@@ -21,6 +21,7 @@ export default {
       'ms': "576px",
       'md600': "601px",
       'md767': "767px",
+      'md': "768px",
       'mx':"426px",
       'sm': "640px",
       'dm': "992px",
