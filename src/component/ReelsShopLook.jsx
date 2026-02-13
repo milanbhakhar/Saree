@@ -5,6 +5,7 @@ import reels3 from '../Video/reels3.mp4'
 import reels4 from '../Video/reels4.mp4'
 
 function ReelsShopLook() {
+
     const scrollRef = useRef(null);
     const [isDragging, setIsDragging] = useState(false);
     const [startX, setStartX] = useState(0);
@@ -15,31 +16,37 @@ function ReelsShopLook() {
     const looks = [
         {
             id: 1,
+            head: "Suits",
             title: "Summer Vibes Collection",
             video: reels1,
         },
         {
             id: 2,
+            head: "Sarees",
             title: "Festive Ethnic Wear",
             video: reels2,
         },
         {
             id: 3,
+            head: "Streetwear",
             title: "Streetwear Essentials",
             video: reels3,
         },
         {
             id: 4,
+            head: "Workwear",
             title: "Office Chic",
             video: reels4,
         },
         {
             id: 5,
+            head: "Accessories",
             title: "Summer Vibes Collection",
             video: reels1,
         },
         {
             id: 6,
+            head: "Footwear",
             title: "Festive Ethnic Wear",
             video: reels2,
         },
@@ -155,8 +162,8 @@ function ReelsShopLook() {
 
     return (
         <>
-            <section className="bg-gray-100 py-10 sm:py-16 px-4 sm:px-8 lg:px-20 mx-auto overflow-hidden">
-                <h2 className="text-center text-2xl sm:text-3xl font-semibold mb-6 sm:mb-8 md:mb-10">
+            <section className="bg-gray-100 py-10 sm:py-12 mx-auto overflow-hidden">
+                <h2 className="text-center text-2xl sm:text-3xl font-semibold mb-6">
                     Shop the Look
                 </h2>
 
@@ -170,7 +177,7 @@ function ReelsShopLook() {
                         onTouchStart={handleTouchStart}
                         onTouchMove={handleTouchMove}
                         onTouchEnd={handleTouchEnd}
-                        className="flex gap-6 overflow-x-auto no-scrollbar py-8 px-4 cursor-grab select-none"
+                        className="flex gap-6 overflow-x-auto no-scrollbar py-4 px-4 cursor-grab select-none"
                         style={{
                             scrollbarWidth: 'none',
                             msOverflowStyle: 'none',
@@ -186,7 +193,7 @@ function ReelsShopLook() {
                                     transformStyle: 'preserve-3d'
                                 }}
                             >
-                                <div className="relative rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 bg-white h-full">
+                                <div className="relative rounded-2xl overflow-hidden transition-all duration-300 bg-white h-full">
                                     {/* MEDIA CONTAINER (VIDEO) */}
                                     <div className="w-full aspect-[3/4] overflow-hidden relative">
                                         <video
@@ -205,6 +212,7 @@ function ReelsShopLook() {
 
                                     {/* Title overlay */}
                                     <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent">
+                                        <p className="text-sm sm:text-base font-medium text-gray-300">{item.head}</p>
                                         <h3 className="text-white text-sm sm:text-base font-medium">
                                             {item.title}
                                         </h3>
@@ -215,8 +223,8 @@ function ReelsShopLook() {
                     </div>
 
                     {/* Optional: Scroll indicators */}
-                    <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-gray-100 to-transparent pointer-events-none" />
-                    <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-gray-100 to-transparent pointer-events-none" />
+                    {/* <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-gray-100 to-transparent pointer-events-none" />
+                    <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-gray-100 to-transparent pointer-events-none" /> */}
                 </div>
             </section>
         </>

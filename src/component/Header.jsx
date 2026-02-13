@@ -7,6 +7,7 @@ import {
   FiMenu,
   FiX,
 } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -63,14 +64,15 @@ export default function Header() {
             </button>
 
             {/* Logo */}
-            <h1 className="text-xl sm:text-2xl font-bold tracking-wide">
+            <Link to="/" 
+            className="text-xl sm:text-2xl font-bold tracking-wide">
               E-COMMERCE
-            </h1>
+            </Link>
 
             {/* Desktop Menu */}
             <nav className="hidden md:flex gap-6 text-sm font-medium text-gray-700 ml-8">
 
-              <a href="#" className="hover:text-black">New Arrivals</a>
+              <Link to="/shop-page" className="hover:text-black">New Arrivals</Link>
 
               {/* 🔽 CATEGORIES DROPDOWN */}
               <div className="relative group">
