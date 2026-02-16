@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
-import reels1 from '../Video/reels1.mp4'
-import reels2 from '../Video/reels2.mp4'
-import reels3 from '../Video/reels3.mp4'
-import reels4 from '../Video/reels4.mp4'
+import reels1 from '../Video/reels.mp4'
+import reels2 from '../Video/reels.mp4'
+import reels3 from '../Video/reels.mp4'
+import reels4 from '../Video/reels.mp4'
 
 function ReelsShopLook() {
 
@@ -212,8 +212,8 @@ function ReelsShopLook() {
 
                                     {/* Title overlay */}
                                     <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent">
-                                        <p className="text-sm sm:text-base font-medium text-gray-300">{item.head}</p>
-                                        <h3 className="text-white text-sm sm:text-base font-medium">
+                                        <p className="text-sm sm:text-lg font-medium text-gray-800">{item.head}</p>
+                                        <h3 className="text-white text-base font-medium">
                                             {item.title}
                                         </h3>
                                     </div>

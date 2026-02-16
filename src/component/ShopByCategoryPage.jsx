@@ -170,8 +170,11 @@ function ShopByCategoryPage() {
         }
     };
 
+    // const handleNavigate = (categoryId) => {
+    //     navigate(`/shop-page?category=${categoryId}`);
+    // };
     const handleNavigate = (categoryId) => {
-        navigate(`/shop-page?category=${categoryId}`);
+        navigate(`/category-page`);
     };
 
     return (
@@ -226,11 +229,11 @@ function ShopByCategoryPage() {
                                                     src={category.image}
                                                     alt={category.title}
                                                     onDragStart={(e) => e.preventDefault()} // Prevent native drag
-                                                    // onClick={(e) => {
-                                                    //   // prevent click if we were dragging
-                                                    //   if (isDown) e.preventDefault();
-                                                    //   else handleNavigate(category.id);
-                                                    // }}
+                                                    onClick={(e) => {
+                                                        // prevent click if we were dragging
+                                                        if (isDown) e.preventDefault();
+                                                        else handleNavigate(category.id);
+                                                    }}
                                                     className="w-full h-full object-cover rounded-full border border-gray-300 cursor-pointer"
                                                 />
                                             </div>

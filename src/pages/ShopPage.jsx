@@ -17,6 +17,7 @@ import image9 from "../images/i9.png";
 import image10 from "../images/i10.avif";
 import image11 from "../images/i11.png";
 import image12 from "../images/i12.png";
+import { useNavigate } from 'react-router-dom';
 
 
 const ShopPage = () => {
@@ -273,12 +274,15 @@ const ShopPage = () => {
     }
   };
 
+  const navigate = useNavigate();
+
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-[1400px] mx-auto px-4 py-8">
+    <div className="w-full bg-white py-10 sm:py-12">
+      <div className="px-4 sm:px-8 lg:px-20 mx-auto">
         <div className="flex flex-col sm:flex-row gap-8">
+
           {/* Filters Sidebar */}
-          <aside className="lg:w-64 flex-shrink-0">
+          <aside className="sm:w-60 lg:w-64 flex-shrink-0">
             <div className="bg-white rounded-lg shadow-sm p-6 sticky top-4">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-lg font-semibold">Filters</h2>
@@ -519,6 +523,7 @@ const ShopPage = () => {
               {products.map((product) => (
                 <div
                   key={product.id}
+                  onClick={() => navigate(`/details-page/${product.id}`)}
                   className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden group cursor-pointer"
                 >
                   <div className="relative overflow-hidden bg-gray-100 aspect-[4/5]">
@@ -574,9 +579,6 @@ const ShopPage = () => {
                 </button>
                 <button className="px-4 py-2 border border-gray-300 rounded-lg text-sm hover:bg-gray-50">
                   2
-                </button>
-                <button className="px-4 py-2 border border-gray-300 rounded-lg text-sm hover:bg-gray-50">
-                  3
                 </button>
                 <span className="px-2">...</span>
                 <button className="px-4 py-2 border border-gray-300 rounded-lg text-sm hover:bg-gray-50">

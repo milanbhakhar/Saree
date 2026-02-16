@@ -7,6 +7,8 @@ import "slick-carousel/slick/slick-theme.css";
 import Layout from "./pages/Layout";
 import HomePage from "./pages/HomePage";
 import ShopPage from "./pages/ShopPage";
+import CategoryPage from "./pages/CategoryPage";
+import DetailsPage from "./pages/DetailsPage";
 import ContactUs from "./pages/ContactUs";
 import Account from "./pages/Account";
 import AboutUs from "./pages/AboutUs";
@@ -19,6 +21,8 @@ function App() {
           {/* Pages that NEED header & footer */}
           <Route index element={<HomePage />} />
           <Route path="shop-page" element={<ShopPage />} />
+          <Route path="category-page" element={<CategoryPage />} />
+          <Route path="details-page/:id" element={<DetailsPage />} />
           <Route path="about-us" element={<AboutUs />} />
           <Route path="contact-us" element={<ContactUs />} />
           <Route path="account" element={<Account />} />

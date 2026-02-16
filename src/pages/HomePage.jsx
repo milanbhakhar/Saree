@@ -1,27 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react'
-import HeroBanner from '../component/HeroBanner'
-import Slider from 'react-slick';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
 
+import HeroBanner from '../component/HeroBanner'
 import ShopByCategoryPage from '../component/ShopByCategoryPage'
 import TrendingNow from '../component/TrendingPage'
 import ReelsShopLook from '../component/ReelsShopLook'
 import BestSellerPage from '../component/BestSellerPage'
 import FollowUsPage from '../component/FollowUsPage'
 
-import image1 from "../images/i1.png";
-import image2 from "../images/i2.png";
-import image3 from "../images/i3.png";
-import image4 from "../images/i4.png";
-import image5 from "../images/5.png";
-import image6 from "../images/6.png";
-import image7 from "../images/7.png";
-import image8 from "../images/8.png";
-import image9 from "../images/9.png";
-import image10 from "../images/10.png";
-import image11 from "../images/11.png";
-import image12 from "../images/12.png";
+
 
 function HomePage() {
 
