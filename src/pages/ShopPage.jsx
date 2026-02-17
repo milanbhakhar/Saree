@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 
 import { IoIosStar } from "react-icons/io";
 import { RiLayoutGridFill } from "react-icons/ri";
@@ -17,6 +17,14 @@ import image9 from "../images/i9.png";
 import image10 from "../images/i10.avif";
 import image11 from "../images/i11.png";
 import image12 from "../images/i12.png";
+import image13 from "../images/i1.png";
+import image14 from "../images/i2.png";
+import image15 from "../images/i3.png";
+import image16 from "../images/i4.png";
+import image17 from "../images/i5.png";
+import image18 from "../images/i6.png";
+import image19 from "../images/i7.png";
+import image20 from "../images/i8.png";
 import { useNavigate } from 'react-router-dom';
 
 
@@ -34,6 +42,11 @@ const ShopPage = () => {
     category: true
   });
   const [viewMode, setViewMode] = useState('grid');
+  const [displayedProducts, setDisplayedProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const [page, setPage] = useState(1);
+  const observerTarget = useRef(null);
 
   const colors = [
     { name: 'Black', hex: '#000000' },
@@ -66,7 +79,7 @@ const ShopPage = () => {
     { name: 'Shoes', count: 168 }
   ];
 
-  const products = [
+  const products = useMemo(() => [
     {
       id: 1,
       name: 'Classic Tailored Blazer',
@@ -190,8 +203,89 @@ const ShopPage = () => {
       rating: 4.6,
       reviews: 98,
       image: image12
+    },
+    {
+      id: 13,
+      name: 'Elegant Silk Blouse',
+      category: "Women's Formal",
+      price: 49.99,
+      originalPrice: 69.99,
+      rating: 4.5,
+      reviews: 76,
+      image: image13
+    },
+    {
+      id: 14,
+      name: 'Classic Office Blazer',
+      category: "Women's Formal",
+      price: 89.99,
+      originalPrice: 119.99,
+      rating: 4.7,
+      reviews: 134,
+      image: image14
+    },
+    {
+      id: 15,
+      name: 'Tailored Straight-Leg Trousers',
+      category: "Women's Formal",
+      price: 64.99,
+      originalPrice: 84.99,
+      rating: 4.4,
+      reviews: 88,
+      image: image15
+    },
+    {
+      id: 16,
+      name: 'Chic Midi Wrap Dress',
+      category: "Women's Formal",
+      price: 74.99,
+      originalPrice: 99.99,
+      rating: 4.6,
+      reviews: 112,
+      image: image16
+    },
+    {
+      id: 17,
+      name: 'Premium Cotton Shirt',
+      category: "Women's Formal",
+      price: 39.99,
+      originalPrice: 54.99,
+      rating: 4.3,
+      reviews: 67,
+      image: image17
+    },
+    {
+      id: 18,
+      name: 'High-Waist Pleated Skirt',
+      category: "Women's Formal",
+      price: 59.99,
+      originalPrice: 79.99,
+      rating: 4.5,
+      reviews: 91,
+      image: image18
+    },
+    {
+      id: 19,
+      name: 'Structured Handbag',
+      category: "Women's Accessories",
+      price: 69.99,
+      originalPrice: 94.99,
+      rating: 4.7,
+      reviews: 143,
+      image: image19
+    },
+    {
+      id: 20,
+      name: 'Pointed Toe Heels',
+      category: "Women's Footwear",
+      price: 79.99,
+      originalPrice: 109.99,
+      rating: 4.6,
+      reviews: 120,
+      image: image20
     }
-  ];
+
+  ], []);
 
   const toggleSection = (section) => {
     setExpandedSections(prev => ({
@@ -275,6 +369,66 @@ const ShopPage = () => {
   };
 
   const navigate = useNavigate();
+
+  // Get products for a specific page
+  const getProductsForPage = useCallback((pageNum, pageSize = 12) => {
+    const startIndex = (pageNum - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+    return products.slice(startIndex, endIndex);
+  }, [products]);
+
+  useEffect(() => {
+    setPage(1);
+    setIsLoading(false);
+
+    // Load only first 12 products
+    const initialProducts = products.slice(0, 12);
+    setDisplayedProducts(initialProducts);
+
+    setHasMore(products.length > 12);
+  }, []);
+
+  // Infinite scroll handler
+  useEffect(() => {
+    if (!hasMore) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasMore && !isLoading) {
+          setIsLoading(true);
+          setTimeout(() => {
+            const nextPage = page + 1;
+            const newProducts = getProductsForPage(nextPage, 12);
+
+            if (newProducts.length > 0) {
+              setDisplayedProducts(prev => {
+                const updated = [...prev, ...newProducts];
+                const allLoaded = updated.length >= products.length;
+                setHasMore(!allLoaded);
+                return updated;
+              });
+              setPage(nextPage);
+            } else {
+              setHasMore(false);
+            }
+            setIsLoading(false);
+          }, 500);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    const currentTarget = observerTarget.current;
+    if (currentTarget) {
+      observer.observe(currentTarget);
+    }
+
+    return () => {
+      if (currentTarget) {
+        observer.unobserve(currentTarget);
+      }
+    };
+  }, [hasMore, isLoading, page, getProductsForPage, products.length]);
 
   return (
     <div className="w-full bg-white py-10 sm:py-12">
@@ -482,20 +636,21 @@ const ShopPage = () => {
 
           {/* Products Grid */}
           <main className="flex-1">
+
             {/* Header */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6">
               <div>
                 <h1 className="text-2xl font-bold mb-1">Women's Collection</h1>
                 <p className="text-sm text-gray-500">Showing 1-24 of 232 products</p>
               </div>
-              <div className="flex items-center gap-4 mt-4 sm:mt-0">
+              <div className="flex items-center mt-4 sm:mt-0">
                 <select className="px-4 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
                   <option>New Arrivals</option>
                   <option>Price: Low to High</option>
                   <option>Price: High to Low</option>
                   <option>Best Rated</option>
                 </select>
-                <div className="flex gap-2">
+                {/* <div className="flex gap-2">
                   <button
                     onClick={() => setViewMode('grid')}
                     className={`p-2 rounded ${viewMode === 'grid'
@@ -514,13 +669,13 @@ const ShopPage = () => {
                   >
                     <VscThreeBars className="w-4 h-4" />
                   </button>
-                </div>
+                </div> */}
               </div>
             </div>
 
             {/* Products Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {products.map((product) => (
+              {displayedProducts.map((product) => (
                 <div
                   key={product.id}
                   onClick={() => navigate(`/details-page/${product.id}`)}
@@ -568,26 +723,17 @@ const ShopPage = () => {
               ))}
             </div>
 
-            {/* Pagination */}
-            <div className="mt-12 flex justify-center">
-              <div className="flex items-center gap-2">
-                <button className="px-4 py-2 border border-gray-300 rounded-lg text-sm hover:bg-gray-50">
-                  Previous
-                </button>
-                <button className="px-4 py-2 bg-gray-900 text-white rounded-lg text-sm">
-                  1
-                </button>
-                <button className="px-4 py-2 border border-gray-300 rounded-lg text-sm hover:bg-gray-50">
-                  2
-                </button>
-                <span className="px-2">...</span>
-                <button className="px-4 py-2 border border-gray-300 rounded-lg text-sm hover:bg-gray-50">
-                  10
-                </button>
-                <button className="px-4 py-2 border border-gray-300 rounded-lg text-sm hover:bg-gray-50">
-                  Next
-                </button>
-              </div>
+            {/* Infinite Scroll Observer & Loading */}
+            <div ref={observerTarget} className="h-10 flex justify-center items-center mt-8">
+              {isLoading && (
+                <div className="flex items-center gap-2">
+                  <div className="w-5 h-5 border-2 border-gray-300 border-t-gray-900 rounded-full animate-spin"></div>
+                  <span className="text-sm text-gray-600">Loading more products...</span>
+                </div>
+              )}
+              {!hasMore && displayedProducts.length > 0 && (
+                <p className="text-gray-600">No more products to load</p>
+              )}
             </div>
           </main>
         </div>

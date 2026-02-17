@@ -298,7 +298,7 @@ function DetailsPage() {
                 </div>
 
                 {/* Product Description */}
-                <div className="bg-white rounded-2xl p-8 mb-8">
+                <div className="bg-white rounded-2xl p-5 sm:p-8 mb-8">
                     <h2 className="text-2xl font-bold text-gray-900 mb-6">Product Description</h2>
                     <div className="prose max-w-none">
                         <p className="text-gray-600 mb-4 leading-relaxed">
@@ -370,17 +370,29 @@ function DetailsPage() {
                 </div>
 
                 {/* Customer Reviews */}
-                <div className="bg-white rounded-2xl p-8">
-                    <div className="flex items-center justify-between mb-6">
+                <div className="bg-white rounded-2xl p-5 sm:p-8">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+                        {/* Left Content */}
                         <div>
-                            <h2 className="text-2xl font-bold text-gray-900 mb-2">Customer Reviews</h2>
-                            <div className="flex items-center gap-3">
+                            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
+                                Customer Reviews
+                            </h2>
+
+                            <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                                 {renderStars(4.5)}
-                                <span className="text-lg font-semibold text-gray-900">4.5 out of 5</span>
-                                <span className="text-gray-500">Based on 235 reviews</span>
+
+                                <span className="text-base sm:text-lg font-semibold text-gray-900">
+                                    4.5 out of 5
+                                </span>
+
+                                <span className="text-sm sm:text-base text-gray-500">
+                                    Based on 235 reviews
+                                </span>
                             </div>
                         </div>
-                        <button className="bg-gray-900 text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors">
+
+                        {/* Button */}
+                        <button className="w-auto sm:w-auto bg-gray-900 text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors">
                             Write a Review
                         </button>
                     </div>
