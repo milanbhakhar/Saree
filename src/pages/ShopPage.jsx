@@ -26,11 +26,13 @@ import image18 from "../images/i6.png";
 import image19 from "../images/i7.png";
 import image20 from "../images/i8.png";
 import { useNavigate } from 'react-router-dom';
+import { FiHeart } from 'react-icons/fi';
 
 
 const ShopPage = () => {
   const [priceRange, setPriceRange] = useState([0, 500]);
   const [selectedColors, setSelectedColors] = useState([]);
+  const [selectedProductColors, setSelectedProductColors] = useState({});
   const [selectedSizes, setSelectedSizes] = useState([]);
   const [selectedStyles, setSelectedStyles] = useState(['Formal']);
   const [selectedCategories, setSelectedCategories] = useState(['Women']);
@@ -89,6 +91,7 @@ const ShopPage = () => {
       rating: 4.7,
       reviews: 47,
       image: image1,
+      colors: ["red", "black", "gray"],
       badge: '-30%',
       badgeType: 'sale'
     },
@@ -100,6 +103,7 @@ const ShopPage = () => {
       rating: 5.0,
       reviews: 82,
       image: image2,
+      colors: ["blue", "green", "yellow"],
       badge: 'New',
       badgeType: 'new'
     },
@@ -110,7 +114,8 @@ const ShopPage = () => {
       price: 89.99,
       rating: 4.6,
       reviews: 143,
-      image: image3
+      image: image3,
+      colors: ["black", "navy", "charcoal"],
     },
     {
       id: 4,
@@ -120,7 +125,8 @@ const ShopPage = () => {
       originalPrice: 89.99,
       rating: 4.8,
       reviews: 94,
-      image: image4
+      image: image4,
+      colors: ["purple", "maroon", "teal"],
     },
     {
       id: 5,
@@ -130,6 +136,7 @@ const ShopPage = () => {
       rating: 4.5,
       reviews: 56,
       image: image5,
+      colors: ["white", "beige", "brown"],
       badge: 'Trending',
       badgeType: 'trending'
     },
@@ -140,7 +147,8 @@ const ShopPage = () => {
       price: 189.99,
       rating: 4.9,
       reviews: 78,
-      image: image6
+      image: image6,
+      colors: ["camel", "black", "navy"],
     },
     {
       id: 7,
@@ -149,7 +157,8 @@ const ShopPage = () => {
       price: 119.99,
       rating: 4.7,
       reviews: 201,
-      image: image7
+      image: image7,
+      colors: ["white", "black", "gray"],
     },
     {
       id: 8,
@@ -160,6 +169,7 @@ const ShopPage = () => {
       rating: 4.6,
       reviews: 89,
       image: image8,
+      colors: ["black", "brown", "tan"],
       badge: '-15%',
       badgeType: 'sale'
     },
@@ -170,7 +180,8 @@ const ShopPage = () => {
       price: 49.99,
       rating: 4.4,
       reviews: 67,
-      image: image9
+      image: image9,
+      colors: ["blue", "white", "gray"],
     },
     {
       id: 10,
@@ -180,6 +191,7 @@ const ShopPage = () => {
       rating: 5.0,
       reviews: 312,
       image: image10,
+      colors: ["black", "navy", "charcoal"],
       badge: 'Best Seller',
       badgeType: 'best'
     },
@@ -191,6 +203,7 @@ const ShopPage = () => {
       rating: 4.5,
       reviews: 124,
       image: image11,
+      colors: ["black", "white", "gray"],
       badge: '-20%',
       badgeType: 'sale'
     },
@@ -202,7 +215,8 @@ const ShopPage = () => {
       originalPrice: 79.99,
       rating: 4.6,
       reviews: 98,
-      image: image12
+      image: image12,
+      colors: ["black", "navy", "charcoal"],
     },
     {
       id: 13,
@@ -212,7 +226,8 @@ const ShopPage = () => {
       originalPrice: 69.99,
       rating: 4.5,
       reviews: 76,
-      image: image13
+      image: image13,
+      colors: ["white", "cream", "beige"],
     },
     {
       id: 14,
@@ -222,7 +237,8 @@ const ShopPage = () => {
       originalPrice: 119.99,
       rating: 4.7,
       reviews: 134,
-      image: image14
+      image: image14,
+      colors: ["black", "navy", "gray"],
     },
     {
       id: 15,
@@ -232,7 +248,8 @@ const ShopPage = () => {
       originalPrice: 84.99,
       rating: 4.4,
       reviews: 88,
-      image: image15
+      image: image15,
+      colors: ["black", "navy", "charcoal"],
     },
     {
       id: 16,
@@ -242,7 +259,8 @@ const ShopPage = () => {
       originalPrice: 99.99,
       rating: 4.6,
       reviews: 112,
-      image: image16
+      image: image16,
+      colors: ["red", "blue", "green"],
     },
     {
       id: 17,
@@ -252,7 +270,8 @@ const ShopPage = () => {
       originalPrice: 54.99,
       rating: 4.3,
       reviews: 67,
-      image: image17
+      image: image17,
+      colors: ["white", "blue", "gray"],
     },
     {
       id: 18,
@@ -262,7 +281,8 @@ const ShopPage = () => {
       originalPrice: 79.99,
       rating: 4.5,
       reviews: 91,
-      image: image18
+      image: image18,
+      colors: ["black", "navy", "charcoal"],
     },
     {
       id: 19,
@@ -272,7 +292,8 @@ const ShopPage = () => {
       originalPrice: 94.99,
       rating: 4.7,
       reviews: 143,
-      image: image19
+      image: image19,
+      colors: ["black", "brown", "tan"],
     },
     {
       id: 20,
@@ -282,10 +303,26 @@ const ShopPage = () => {
       originalPrice: 109.99,
       rating: 4.6,
       reviews: 120,
-      image: image20
+      image: image20,
+      colors: ["black", "red", "nude"],
     }
 
   ], []);
+
+  const colorMap = {
+    red: "bg-red-500",
+    black: "bg-black",
+    gray: "bg-gray-400",
+    blue: "bg-blue-500",
+    green: "bg-green-500",
+    yellow: "bg-yellow-400",
+    navy: "bg-slate-800",
+    charcoal: "bg-neutral-700",
+    purple: "bg-purple-500",
+    maroon: "bg-rose-800",
+    teal: "bg-teal-500",
+  };
+
 
   const toggleSection = (section) => {
     setExpandedSections(prev => ({
@@ -687,6 +724,12 @@ const ShopPage = () => {
                       alt={product.name}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
+                    {/* Add to Cart Overlay */}
+                    <div className="absolute inset-0 flex items-end opacity-0 group-hover:opacity-100 transition">
+                      <button className="w-full py-3 text-white text-base font-semibold bg-black/40 translate-y-full group-hover:translate-y-0 transition-transform duration-300 hover:bg-black/30">
+                        Add to Cart
+                      </button>
+                    </div>
                     {product.badge && (
                       <span
                         className={`absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-semibold ${getBadgeStyles(
@@ -696,8 +739,40 @@ const ShopPage = () => {
                         {product.badge}
                       </span>
                     )}
+                    <span
+                      onClick={(e) => e.stopPropagation()}
+                      className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-white/90 flex items-center justify-center cursor-pointer hover:bg-gray-100 transition"
+                    >
+                      <FiHeart size={16} />
+                    </span>
                   </div>
                   <div className="p-4">
+                    {/* Variant Colors */}
+                    <div className="flex items-center gap-2 mt-2">
+                      {product.colors.map((color) => (
+                        <span
+                          key={color}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedProductColors((prev) => {
+                              const currentColor = prev[product.id];
+
+                              // If clicking the same color again, clear all selections
+                              if (currentColor === color) {
+                                return {};
+                              }
+
+                              // Always keep only one active product/color selection
+                              return {
+                                [product.id]: color,
+                              };
+                            });
+                          }}
+                          className={`w-5 h-5 rounded-full cursor-pointer border border-gray-300 ${colorMap[color] || 'bg-gray-300'}
+                          ${selectedProductColors[product.id] === color ? "ring-2 ring-black ring-offset-1 ring-offset-white" : ""}`}
+                        />
+                      ))}
+                    </div>
                     <h3 className="font-semibold text-gray-900 mb-1 line-clamp-1">
                       {product.name}
                     </h3>

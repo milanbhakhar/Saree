@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 
 import image1 from "../images/i1.png";
 import image2 from "../images/i2.png";
@@ -12,6 +12,14 @@ import image9 from "../images/i9.png";
 import image10 from "../images/i10.avif";
 import image11 from "../images/i11.png";
 import image12 from "../images/i12.png";
+import image13 from "../images/i1.png";
+import image14 from "../images/i2.png";
+import image15 from "../images/i3.png";
+import image16 from "../images/i4.png";
+import image17 from "../images/i5.png";
+import image18 from "../images/i6.png";
+import image19 from "../images/i7.png";
+import image20 from "../images/i8.png";
 import banner from '../images/5.png';
 
 
@@ -21,12 +29,14 @@ import { VscThreeBars } from "react-icons/vsc";
 import { IoChevronUpOutline, IoChevronDownOutline } from "react-icons/io5";
 import { HiOutlineChevronRight } from "react-icons/hi";
 import { useNavigate } from 'react-router-dom';
+import { FiHeart } from 'react-icons/fi';
 
 
 function CategoryPage() {
 
     const [priceRange, setPriceRange] = useState([0, 500]);
     const [selectedColors, setSelectedColors] = useState([]);
+    const [selectedProductColors, setSelectedProductColors] = useState({});
     const [selectedSizes, setSelectedSizes] = useState([]);
     const [selectedStyles, setSelectedStyles] = useState(['Formal']);
     const [selectedCategories, setSelectedCategories] = useState(['Women']);
@@ -38,6 +48,11 @@ function CategoryPage() {
         category: true
     });
     const [viewMode, setViewMode] = useState('grid');
+    const [displayedProducts, setDisplayedProducts] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [hasMore, setHasMore] = useState(true);
+    const [page, setPage] = useState(1);
+    const observerTarget = useRef(null);
 
     const colors = [
         { name: 'Black', hex: '#000000' },
@@ -70,7 +85,7 @@ function CategoryPage() {
         { name: 'Shoes', count: 168 }
     ];
 
-    const products = [
+    const products = useMemo(() => [
         {
             id: 1,
             name: 'Classic Tailored Blazer',
@@ -80,6 +95,7 @@ function CategoryPage() {
             rating: 4.7,
             reviews: 47,
             image: image1,
+            colors: ["red", "black", "gray"],
             badge: '-30%',
             badgeType: 'sale'
         },
@@ -91,6 +107,7 @@ function CategoryPage() {
             rating: 5.0,
             reviews: 82,
             image: image2,
+            colors: ["blue", "green", "yellow"],
             badge: 'New',
             badgeType: 'new'
         },
@@ -101,7 +118,8 @@ function CategoryPage() {
             price: 89.99,
             rating: 4.6,
             reviews: 143,
-            image: image3
+            image: image3,
+            colors: ["black", "navy", "charcoal"],
         },
         {
             id: 4,
@@ -111,7 +129,8 @@ function CategoryPage() {
             originalPrice: 89.99,
             rating: 4.8,
             reviews: 94,
-            image: image4
+            image: image4,
+            colors: ["purple", "maroon", "teal"],
         },
         {
             id: 5,
@@ -121,6 +140,7 @@ function CategoryPage() {
             rating: 4.5,
             reviews: 56,
             image: image5,
+            colors: ["white", "beige", "brown"],
             badge: 'Trending',
             badgeType: 'trending'
         },
@@ -131,7 +151,8 @@ function CategoryPage() {
             price: 189.99,
             rating: 4.9,
             reviews: 78,
-            image: image6
+            image: image6,
+            colors: ["camel", "black", "navy"],
         },
         {
             id: 7,
@@ -140,7 +161,8 @@ function CategoryPage() {
             price: 119.99,
             rating: 4.7,
             reviews: 201,
-            image: image7
+            image: image7,
+            colors: ["white", "black", "gray"],
         },
         {
             id: 8,
@@ -151,6 +173,7 @@ function CategoryPage() {
             rating: 4.6,
             reviews: 89,
             image: image8,
+            colors: ["black", "brown", "tan"],
             badge: '-15%',
             badgeType: 'sale'
         },
@@ -161,7 +184,8 @@ function CategoryPage() {
             price: 49.99,
             rating: 4.4,
             reviews: 67,
-            image: image9
+            image: image9,
+            colors: ["blue", "white", "gray"],
         },
         {
             id: 10,
@@ -171,6 +195,7 @@ function CategoryPage() {
             rating: 5.0,
             reviews: 312,
             image: image10,
+            colors: ["black", "navy", "charcoal"],
             badge: 'Best Seller',
             badgeType: 'best'
         },
@@ -182,6 +207,7 @@ function CategoryPage() {
             rating: 4.5,
             reviews: 124,
             image: image11,
+            colors: ["black", "white", "gray"],
             badge: '-20%',
             badgeType: 'sale'
         },
@@ -193,9 +219,114 @@ function CategoryPage() {
             originalPrice: 79.99,
             rating: 4.6,
             reviews: 98,
-            image: image12
+            image: image12,
+            colors: ["black", "navy", "charcoal"],
+        },
+        {
+            id: 13,
+            name: 'Elegant Silk Blouse',
+            category: "Women's Formal",
+            price: 49.99,
+            originalPrice: 69.99,
+            rating: 4.5,
+            reviews: 76,
+            image: image13,
+            colors: ["white", "cream", "beige"],
+        },
+        {
+            id: 14,
+            name: 'Classic Office Blazer',
+            category: "Women's Formal",
+            price: 89.99,
+            originalPrice: 119.99,
+            rating: 4.7,
+            reviews: 134,
+            image: image14,
+            colors: ["black", "navy", "gray"],
+        },
+        {
+            id: 15,
+            name: 'Tailored Straight-Leg Trousers',
+            category: "Women's Formal",
+            price: 64.99,
+            originalPrice: 84.99,
+            rating: 4.4,
+            reviews: 88,
+            image: image15,
+            colors: ["black", "navy", "charcoal"],
+        },
+        {
+            id: 16,
+            name: 'Chic Midi Wrap Dress',
+            category: "Women's Formal",
+            price: 74.99,
+            originalPrice: 99.99,
+            rating: 4.6,
+            reviews: 112,
+            image: image16,
+            colors: ["red", "blue", "green"],
+        },
+        {
+            id: 17,
+            name: 'Premium Cotton Shirt',
+            category: "Women's Formal",
+            price: 39.99,
+            originalPrice: 54.99,
+            rating: 4.3,
+            reviews: 67,
+            image: image17,
+            colors: ["white", "blue", "gray"],
+        },
+        {
+            id: 18,
+            name: 'High-Waist Pleated Skirt',
+            category: "Women's Formal",
+            price: 59.99,
+            originalPrice: 79.99,
+            rating: 4.5,
+            reviews: 91,
+            image: image18,
+            colors: ["black", "navy", "charcoal"],
+        },
+        {
+            id: 19,
+            name: 'Structured Handbag',
+            category: "Women's Accessories",
+            price: 69.99,
+            originalPrice: 94.99,
+            rating: 4.7,
+            reviews: 143,
+            image: image19,
+            colors: ["black", "brown", "tan"],
+        },
+        {
+            id: 20,
+            name: 'Pointed Toe Heels',
+            category: "Women's Footwear",
+            price: 79.99,
+            originalPrice: 109.99,
+            rating: 4.6,
+            reviews: 120,
+            image: image20,
+            colors: ["black", "red", "nude"],
         }
-    ];
+
+    ], []);
+
+    const colorMap = {
+        red: "bg-red-500",
+        black: "bg-black",
+        gray: "bg-gray-400",
+        blue: "bg-blue-500",
+        green: "bg-green-500",
+        yellow: "bg-yellow-400",
+        navy: "bg-slate-800",
+        charcoal: "bg-neutral-700",
+        purple: "bg-purple-500",
+        maroon: "bg-rose-800",
+        teal: "bg-teal-500",
+    };
+
 
     const toggleSection = (section) => {
         setExpandedSections(prev => ({
@@ -279,6 +410,66 @@ function CategoryPage() {
     };
 
     const navigate = useNavigate();
+
+    // Get products for a specific page
+    const getProductsForPage = useCallback((pageNum, pageSize = 12) => {
+        const startIndex = (pageNum - 1) * pageSize;
+        const endIndex = startIndex + pageSize;
+        return products.slice(startIndex, endIndex);
+    }, [products]);
+
+    useEffect(() => {
+        setPage(1);
+        setIsLoading(false);
+
+        // Load only first 12 products
+        const initialProducts = products.slice(0, 12);
+        setDisplayedProducts(initialProducts);
+
+        setHasMore(products.length > 12);
+    }, []);
+
+    // Infinite scroll handler
+    useEffect(() => {
+        if (!hasMore) return;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting && hasMore && !isLoading) {
+                    setIsLoading(true);
+                    setTimeout(() => {
+                        const nextPage = page + 1;
+                        const newProducts = getProductsForPage(nextPage, 12);
+
+                        if (newProducts.length > 0) {
+                            setDisplayedProducts(prev => {
+                                const updated = [...prev, ...newProducts];
+                                const allLoaded = updated.length >= products.length;
+                                setHasMore(!allLoaded);
+                                return updated;
+                            });
+                            setPage(nextPage);
+                        } else {
+                            setHasMore(false);
+                        }
+                        setIsLoading(false);
+                    }, 500);
+                }
+            },
+            { threshold: 0.1 }
+        );
+
+        const currentTarget = observerTarget.current;
+        if (currentTarget) {
+            observer.observe(currentTarget);
+        }
+
+        return () => {
+            if (currentTarget) {
+                observer.unobserve(currentTarget);
+            }
+        };
+    }, [hasMore, isLoading, page, getProductsForPage, products.length]);
 
     return (
         <div className="min-h-screen bg-gray-50">
@@ -579,7 +770,7 @@ function CategoryPage() {
 
                             {/* Products Grid */}
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                                {products.map((product) => (
+                                {displayedProducts.map((product) => (
                                     <div
                                         key={product.id}
                                         onClick={() => navigate(`/details-page/${product.id}`)}
@@ -591,6 +782,12 @@ function CategoryPage() {
                                                 alt={product.name}
                                                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                                             />
+                                            {/* Add to Cart Overlay */}
+                                            <div className="absolute inset-0 flex items-end opacity-0 group-hover:opacity-100 transition">
+                                                <button className="w-full py-3 text-white text-base font-semibold bg-black/40 translate-y-full group-hover:translate-y-0 transition-transform duration-300 hover:bg-black/30">
+                                                    Add to Cart
+                                                </button>
+                                            </div>
                                             {product.badge && (
                                                 <span
                                                     className={`absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-semibold ${getBadgeStyles(
@@ -600,8 +797,40 @@ function CategoryPage() {
                                                     {product.badge}
                                                 </span>
                                             )}
+                                            <span
+                                                onClick={(e) => e.stopPropagation()}
+                                                className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-white/90 flex items-center justify-center cursor-pointer hover:bg-gray-100 transition"
+                                            >
+                                                <FiHeart size={16} />
+                                            </span>
                                         </div>
                                         <div className="p-4">
+                                            {/* Variant Colors */}
+                                            <div className="flex items-center gap-2 mt-2">
+                                                {product.colors.map((color) => (
+                                                    <span
+                                                        key={color}
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            setSelectedProductColors((prev) => {
+                                                                const currentColor = prev[product.id];
+
+                                                                // If clicking the same color again, clear all selections
+                                                                if (currentColor === color) {
+                                                                    return {};
+                                                                }
+
+                                                                // Always keep only one active product/color selection
+                                                                return {
+                                                                    [product.id]: color,
+                                                                };
+                                                            });
+                                                        }}
+                                                        className={`w-5 h-5 rounded-full cursor-pointer border border-gray-300 ${colorMap[color] || 'bg-gray-300'}
+                                                        ${selectedProductColors[product.id] === color ? "ring-2 ring-black ring-offset-1 ring-offset-white" : ""}`}
+                                                    />
+                                                ))}
+                                            </div>
                                             <h3 className="font-semibold text-gray-900 mb-1 line-clamp-1">
                                                 {product.name}
                                             </h3>
@@ -627,26 +856,17 @@ function CategoryPage() {
                                 ))}
                             </div>
 
-                            {/* Pagination */}
-                            <div className="mt-12 flex justify-center">
-                                <div className="flex items-center gap-2">
-                                    <button className="px-4 py-2 border border-gray-300 rounded-lg text-sm hover:bg-gray-50">
-                                        Previous
-                                    </button>
-                                    <button className="px-4 py-2 bg-gray-900 text-white rounded-lg text-sm">
-                                        1
-                                    </button>
-                                    <button className="px-4 py-2 border border-gray-300 rounded-lg text-sm hover:bg-gray-50">
-                                        2
-                                    </button>
-                                    <span className="px-2">...</span>
-                                    <button className="px-4 py-2 border border-gray-300 rounded-lg text-sm hover:bg-gray-50">
-                                        10
-                                    </button>
-                                    <button className="px-4 py-2 border border-gray-300 rounded-lg text-sm hover:bg-gray-50">
-                                        Next
-                                    </button>
-                                </div>
+                            {/* Infinite Scroll Observer & Loading */}
+                            <div ref={observerTarget} className="h-10 flex justify-center items-center mt-8">
+                                {isLoading && (
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-5 h-5 border-2 border-gray-300 border-t-gray-900 rounded-full animate-spin"></div>
+                                        <span className="text-sm text-gray-600">Loading more products...</span>
+                                    </div>
+                                )}
+                                {!hasMore && displayedProducts.length > 0 && (
+                                    <p className="text-gray-600">No more products to load</p>
+                                )}
                             </div>
                         </main>
                     </div>

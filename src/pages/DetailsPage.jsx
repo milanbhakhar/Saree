@@ -10,8 +10,8 @@ import { LuTruck } from "react-icons/lu";
 import { LuRefreshCcw } from "react-icons/lu";
 import { HiOutlineShieldCheck } from "react-icons/hi";
 import { FaRegHeart } from "react-icons/fa";
-import { FiMinus, FiPlus } from "react-icons/fi";
-
+import { FiHeart, FiMinus, FiPlus } from "react-icons/fi";
+import { useNavigate } from 'react-router-dom';
 
 function DetailsPage() {
     const [selectedImage, setSelectedImage] = useState(0);
@@ -19,6 +19,10 @@ function DetailsPage() {
     const [selectedSize, setSelectedSize] = useState('M');
     const [quantity, setQuantity] = useState(1);
     const [showAllReviews, setShowAllReviews] = useState(false);
+    const [selectedVariant, setSelectedVariant] = useState({
+        productId: null,
+        color: null,
+    });
 
     const productImages = [
         image1,
@@ -39,29 +43,53 @@ function DetailsPage() {
     const completeTheLook = [
         {
             id: 1,
-            name: 'Classic White Shirt',
-            price: 35.00,
-            image: image4
+            title: "Floral Midi Dress",
+            price: 2499,
+            oldPrice: 3599,
+            badge: "-30%",
+            image: image1,
+            colors: ["red", "black", "gray"],
         },
         {
             id: 2,
-            name: 'Black Heels',
-            price: 75.00,
-            image: image3
+            title: "Silk Kurta Set",
+            price: 3299,
+            image: image2,
+            colors: ["blue", "green", "yellow"],
         },
         {
             id: 3,
-            name: 'Leather Ankle Boots',
-            price: 125.00,
-            image: image2
+            title: "Designer Blazer",
+            price: 4999,
+            badge: "NEW",
+            badgeColor: "bg-green-500",
+            image: image3,
+            colors: ["black", "navy", "charcoal"],
         },
         {
             id: 4,
-            name: 'Leather Handbag',
-            price: 189.00,
-            image: image1
+            title: "Evening Gown",
+            price: 5999,
+            oldPrice: 7999,
+            badge: "-25%",
+            image: image4,
+            colors: ["purple", "maroon", "teal"],
         }
     ];
+
+    const colorMap = {
+        red: "bg-red-500",
+        black: "bg-black",
+        gray: "bg-gray-400",
+        blue: "bg-blue-500",
+        green: "bg-green-500",
+        yellow: "bg-yellow-400",
+        navy: "bg-slate-800",
+        charcoal: "bg-neutral-700",
+        purple: "bg-purple-500",
+        maroon: "bg-rose-800",
+        teal: "bg-teal-500",
+    };
 
     const reviews = [
         {
@@ -113,9 +141,11 @@ function DetailsPage() {
         );
     };
 
+    const navigate = useNavigate();
+
     return (
         <div className="min-h-screen bg-gray-50">
-            <div className="px-4 sm:px-8 lg:px-20 mx-auto py-10 sm:py-12">
+            <div className="px-4 sm:px-8 lg:px-10 xl:px-20 mx-auto py-10 sm:py-12">
 
                 <div className="grid grid-cols-1 lg:grid-cols-1 xl:grid-cols-2 gap-8 mb-12">
                     {/* Left Side - Image Gallery */}
@@ -342,27 +372,95 @@ function DetailsPage() {
 
                 {/* Complete the Look */}
                 <div className="mb-12">
-                    <h2 className="text-2xl font-bold text-gray-900 mb-6">Complete the Look</h2>
+                    <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                        Complete the Look
+                    </h2>
+
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                         {completeTheLook.map((item) => (
                             <div
                                 key={item.id}
-                                className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden group cursor-pointer"
+                                onClick={() => navigate(`/details-page/${item.id}`)}
+                                className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow overflow-hidden group cursor-pointer"
                             >
-                                <div className="aspect-[4/5] bg-gray-100 overflow-hidden">
+                                {/* Image Wrapper */}
+                                <div className="relative aspect-[4/5] bg-gray-100 overflow-hidden">
+                                    {/* Badge */}
+                                    {item.badge && (
+                                        <span className="absolute top-3 left-3 px-3 py-1 text-xs font-semibold text-white bg-red-500 rounded-full z-10">
+                                            {item.badge}
+                                        </span>
+                                    )}
+
+                                    {/* Wishlist */}
+                                    <span
+                                        onClick={(e) => e.stopPropagation()}
+                                        className="absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-white flex items-center justify-center shadow hover:bg-gray-100 transition">
+                                        <FiHeart size={16} />
+                                    </span>
+
+                                    {/* Image */}
                                     <img
                                         src={item.image}
-                                        alt={item.name}
-                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                                        alt={item.title}
+                                        className="w-full h-full object-cover transition-all duration-300 group-hover:scale-105"
                                     />
+
+                                    {/* Add to Cart Overlay */}
+                                    <div className="absolute inset-0 flex items-end opacity-0 group-hover:opacity-100 transition">
+                                        <button className="w-full py-3 text-white text-base font-semibold bg-black/40 translate-y-full group-hover:translate-y-0 transition-transform duration-300 hover:bg-black/30">
+                                            Add to Cart
+                                        </button>
+                                    </div>
                                 </div>
+
+                                {/* Content */}
                                 <div className="p-4">
-                                    <h3 className="font-medium text-gray-900 mb-2 line-clamp-1">
-                                        {item.name}
+
+                                    {/* Colors */}
+                                    {item.colors && (
+                                        <div className="flex gap-2 mb-2">
+                                            {item.colors.map((color) => (
+                                                <span
+                                                    key={color}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        setSelectedVariant({
+                                                            productId: item.id,
+                                                            color: color,
+                                                        });
+                                                    }}
+                                                    className={`w-5 h-5 rounded-full cursor-pointer
+                                                                border border-gray-300
+                                                                ${colorMap[color]}
+                                                                ${selectedVariant.productId === item.id &&
+                                                            selectedVariant.color === color
+                                                            ? "ring-2 ring-black ring-offset-1 ring-offset-white"
+                                                            : ""
+                                                        }
+                                                    `}
+                                                />
+                                            ))}
+                                        </div>
+                                    )}
+
+                                    <h3 className="text-sm sm:text-lg font-medium mb-1">
+                                        {item.title}
                                     </h3>
-                                    <p className="text-lg font-bold text-gray-900">
-                                        ${item.price.toFixed(2)}
-                                    </p>
+
+                                    {/* Price */}
+                                    <div className="flex items-center gap-2">
+                                        <span className="font-semibold text-sm sm:text-base">
+                                            ₹{item.price.toLocaleString()}
+                                        </span>
+
+                                        {item.oldPrice && (
+                                            <span className="text-xs sm:text-sm text-gray-400 line-through">
+                                                ₹{item.oldPrice.toLocaleString()}
+                                            </span>
+                                        )}
+                                    </div>
+
                                 </div>
                             </div>
                         ))}

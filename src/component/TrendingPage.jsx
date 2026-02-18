@@ -5,6 +5,7 @@ import image1 from "../images/i1.png";
 import image2 from "../images/i2.png";
 import image3 from "../images/i3.png";
 import image4 from "../images/i4.png";
+import { FiHeart } from 'react-icons/fi';
 
 function TrendingPage() {
 
@@ -16,12 +17,14 @@ function TrendingPage() {
             oldPrice: 3599,
             badge: "-30%",
             image: image1,
+            colors: ["red", "black", "gray"],
         },
         {
             id: 2,
             title: "Silk Kurta Set",
             price: 3299,
             image: image2,
+            colors: ["blue", "green", "yellow"],
         },
         {
             id: 3,
@@ -30,6 +33,7 @@ function TrendingPage() {
             badge: "NEW",
             badgeColor: "bg-green-500",
             image: image3,
+            colors: ["black", "navy", "charcoal"],
         },
         {
             id: 4,
@@ -38,6 +42,7 @@ function TrendingPage() {
             oldPrice: 7999,
             badge: "-25%",
             image: image4,
+            colors: ["purple", "maroon", "teal"],
         },
         {
             id: 5,
@@ -46,12 +51,14 @@ function TrendingPage() {
             oldPrice: 3599,
             badge: "-30%",
             image: image1,
+            colors: ["red", "black", "gray"],
         },
         {
             id: 6,
             title: "Silk Kurta Set",
             price: 3299,
             image: image2,
+            colors: ["blue", "green", "yellow"],
         },
         {
             id: 7,
@@ -60,6 +67,7 @@ function TrendingPage() {
             badge: "NEW",
             badgeColor: "bg-green-500",
             image: image3,
+            colors: ["black", "navy", "charcoal"],
         },
         {
             id: 8,
@@ -68,11 +76,30 @@ function TrendingPage() {
             oldPrice: 7999,
             badge: "-25%",
             image: image4,
+            colors: ["purple", "maroon", "teal"],
         },
     ];
 
+    const colorMap = {
+        red: "bg-red-500",
+        black: "bg-black",
+        gray: "bg-gray-400",
+        blue: "bg-blue-500",
+        green: "bg-green-500",
+        yellow: "bg-yellow-400",
+        navy: "bg-slate-800",
+        charcoal: "bg-neutral-700",
+        purple: "bg-purple-500",
+        maroon: "bg-rose-800",
+        teal: "bg-teal-500",
+    };
+
     // Product scroll functionality
     const productScrollRef = useRef(null);
+    const [selectedVariant, setSelectedVariant] = useState({
+        productId: null,
+        color: null,
+    });
 
     const scrollProducts = (direction) => {
         if (!productScrollRef.current) return;
@@ -143,6 +170,12 @@ function TrendingPage() {
                                     </span>
                                 )}
 
+                                <span
+                                    className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-white/90 flex items-center justify-center cursor-pointer hover:bg-gray-100 transition"
+                                >
+                                    <FiHeart size={16} />
+                                </span>
+
                                 <img
                                     src={item.image}
                                     alt={item.title}
@@ -151,7 +184,7 @@ function TrendingPage() {
 
                                 {/* Hover Overlay */}
                                 <div
-                                    className="absolute inset-0 flex items-end bg-black/0 group-hover:bg-black/30 opacity-0 group-hover:opacity-100 transition-all duration-300"
+                                    className="absolute inset-0 flex items-end bg-black/0 opacity-0 group-hover:opacity-100 transition-all duration-300"
                                 >
                                     {/* Full Width Button */}
                                     <button
@@ -163,7 +196,32 @@ function TrendingPage() {
                             </div>
 
                             {/* Product Info */}
-                            <div className="mt-3">
+                            <div className="mt-3 px-1">
+
+                                {/* Variant Colors */}
+                                <div className="flex items-center gap-2 mt-2">
+                                    {item.colors.map((color) => (
+                                        <span
+                                            key={color}
+                                            onClick={() =>
+                                                setSelectedVariant({
+                                                    productId: item.id,
+                                                    color: color,
+                                                })
+                                            }
+                                            className={`w-5 h-5 rounded-full cursor-pointer
+                                                                border border-gray-300
+                                                                ${colorMap[color]}
+                                                                ${selectedVariant.productId === item.id &&
+                                                    selectedVariant.color === color
+                                                    ? "ring-2 ring-black ring-offset-1 ring-offset-white"
+                                                    : ""
+                                                }
+                                                    `}
+                                        />
+                                    ))}
+                                </div>
+
                                 <h3 className="text-sm sm:text-base font-medium">
                                     {item.title}
                                 </h3>

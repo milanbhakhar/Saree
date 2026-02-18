@@ -7,11 +7,18 @@ import {
   FiMenu,
   FiX,
 } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Header() {
+  const navigate = useNavigate();
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [catOpen, setCatOpen] = useState(false);
+
+
+  const handleNavigate = (categoryId) => {
+    navigate(`/category-page`);
+  };
 
 
   return (
@@ -64,8 +71,8 @@ export default function Header() {
             </button>
 
             {/* Logo */}
-            <Link to="/" 
-            className="text-xl sm:text-2xl font-bold tracking-wide">
+            <Link to="/"
+              className="text-xl sm:text-2xl font-bold tracking-wide">
               E-COMMERCE
             </Link>
 
@@ -141,7 +148,9 @@ export default function Header() {
             <FiUser className="cursor-pointer hover:text-black" />
             <FiHeart className="cursor-pointer hover:text-black" />
 
-            <div className="relative cursor-pointer">
+            <div
+              onClick={() => navigate('/shop-cart')}
+              className="relative cursor-pointer">
               <FiShoppingBag className="hover:text-black" />
               <span className="absolute -top-2 -right-2 bg-black text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">
                 3
