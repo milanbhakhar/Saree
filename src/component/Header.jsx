@@ -146,7 +146,15 @@ export default function Header() {
             {/* Mobile Search Icon */}
 
             <FiUser className="cursor-pointer hover:text-black" />
-            <FiHeart className="cursor-pointer hover:text-black" />
+
+            <div
+              onClick={() => navigate('/wishlist')}
+              className="relative cursor-pointer">
+              <FiHeart className="cursor-pointer hover:text-black" />
+              <span className="absolute -top-2 -right-2 bg-black text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">
+                3
+              </span>
+            </div>
 
             <div
               onClick={() => navigate('/shop-cart')}

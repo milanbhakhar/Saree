@@ -157,10 +157,10 @@ function TrendingPage() {
                     {products.map((item) => (
                         <div
                             key={item.id}
-                            className="product-card group flex-shrink-0 w-[220px] sm:w-[240px] md:w-[260px] lg:w-[280px] xl:w-[300px]"
+                            className="product-card group flex-shrink-0 w-[220px] sm:w-[240px] md:w-[260px] lg:w-[280px] xl:w-[300px] bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition"
                         >
                             {/* Image Wrapper */}
-                            <div className="relative rounded-xl overflow-hidden">
+                            <div className="relative overflow-hidden">
                                 {item.badge && (
                                     <span
                                         className={`absolute top-3 left-3 px-3 py-1 text-xs text-white rounded-full z-10 ${item.badgeColor || "bg-red-500"
@@ -196,10 +196,10 @@ function TrendingPage() {
                             </div>
 
                             {/* Product Info */}
-                            <div className="mt-3 px-1">
+                            <div className="p-4">
 
                                 {/* Variant Colors */}
-                                <div className="flex items-center gap-2 mt-2">
+                                <div className="flex items-center gap-2 mb-2">
                                     {item.colors.map((color) => (
                                         <span
                                             key={color}

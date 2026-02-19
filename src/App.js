@@ -10,6 +10,8 @@ import ShopPage from "./pages/ShopPage";
 import CategoryPage from "./pages/CategoryPage";
 import DetailsPage from "./pages/DetailsPage";
 import ShoppingcartPage from "./pages/Shoppingcart";
+import WishlistPage from "./pages/Wishlist";
+import CheckoutPage from "./pages/CheckoutPage";
 import ContactUs from "./pages/ContactUs";
 import Account from "./pages/Account";
 import AboutUs from "./pages/AboutUs";
@@ -25,6 +27,8 @@ function App() {
           <Route path="category-page" element={<CategoryPage />} />
           <Route path="details-page/:id" element={<DetailsPage />} />
           <Route path="shop-cart" element={<ShoppingcartPage />} />
+          <Route path="wishlist" element={<WishlistPage />} />
+          <Route path="check-out" element={<CheckoutPage />} />
           <Route path="about-us" element={<AboutUs />} />
           <Route path="contact-us" element={<ContactUs />} />
           <Route path="account" element={<Account />} />

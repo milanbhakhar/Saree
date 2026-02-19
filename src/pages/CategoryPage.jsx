@@ -774,7 +774,7 @@ function CategoryPage() {
                                     <div
                                         key={product.id}
                                         onClick={() => navigate(`/details-page/${product.id}`)}
-                                        className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden group cursor-pointer"
+                                        className="group bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition cursor-pointer"
                                     >
                                         <div className="relative overflow-hidden bg-gray-100 aspect-[4/5]">
                                             <img
@@ -806,7 +806,7 @@ function CategoryPage() {
                                         </div>
                                         <div className="p-4">
                                             {/* Variant Colors */}
-                                            <div className="flex items-center gap-2 mt-2">
+                                            <div className="flex items-center gap-2 mb-2">
                                                 {product.colors.map((color) => (
                                                     <span
                                                         key={color}
