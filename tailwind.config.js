@@ -22,17 +22,27 @@ export default {
       'md600': "601px",
       'md767': "767px",
       'md': "768px",
-      'mx':"426px",
+      'mx': "426px",
       'sm': "640px",
       'dm': "992px",
       'lg': "1024px",
       'xl': "1280px",
-      "2xl": "1440px",  
+      "2xl": "1440px",
       "3xl": "1650px",
       "4xl": "1920px",
       "5xl": "2560px",
     },
+    container: {
+      center: true,
+      padding: {
+        // DEFAULT: '10px',
+        // md: '20px',
+      },
+      screens: {
+        '4xl': '1920px',
+        '5xl': '2560px'
+      },
+    },
   },
   plugins: [],
 }
-

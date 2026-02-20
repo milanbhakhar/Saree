@@ -2,11 +2,12 @@ import React, { useState } from 'react'
 
 import { FiMinus, FiPlus } from "react-icons/fi";
 import { FaRegTrashCan } from "react-icons/fa6";
-import { IoArrowBackOutline } from "react-icons/io5";
+import { IoArrowBackOutline, IoArrowForwardOutline } from "react-icons/io5";
 import { RiSecurePaymentLine } from "react-icons/ri";
 import { MdOutlineLocalShipping } from "react-icons/md";
 import { LuRefreshCcw } from "react-icons/lu";
 import { FaShoppingCart } from 'react-icons/fa';
+
 
 
 import image1 from "../images/i1.png";
@@ -96,7 +97,7 @@ function Shoppingcart() {
 
             <div className="w-full bg-white py-6 sm:py-10 md:py-12">
 
-                <div className="max-w-[95%] sm:max-w-[90%] xl:max-w-[65%] mx-auto px-2 sm:px-0">
+                <div className="max-w-[95%] sm:max-w-[90%] xl:max-w-[86%] 3xl:max-w-[65%] mx-auto px-2 sm:px-0">
                     {/* Header */}
                     <div className="mb-6 sm:mb-8">
                         <h1 className="text-2xl sm:text-3xl font-semibold text-gray-900">Shopping Cart</h1>
@@ -127,6 +128,7 @@ function Shoppingcart() {
 
                     ) : (
 
+                        // main DIV
                         <div className="flex flex-col lg:flex-row gap-4 sm:gap-6">
                             {/* Cart Items */}
                             <div className="flex-1 min-w-0">
@@ -206,9 +208,9 @@ function Shoppingcart() {
 
                                 {/* Continue Shopping */}
                                 <div className="mt-3 sm:mt-4">
-                                    <button 
-                                     onClick={() => navigate('/')}
-                                    className="flex items-center gap-1 text-indigo-600 font-medium hover:underline bg-white rounded-lg border border-gray-100 shadow-sm p-4 sm:p-5 w-full text-sm sm:text-base">
+                                    <button
+                                        onClick={() => navigate('/')}
+                                        className="flex items-center gap-1 text-indigo-600 font-medium hover:underline bg-white rounded-lg border border-gray-100 shadow-sm p-4 sm:p-5 w-full text-sm sm:text-base">
                                         <IoArrowBackOutline />
                                         Continue Shopping
                                     </button>
@@ -238,7 +240,7 @@ function Shoppingcart() {
                                     </div>
 
                                     {/* Divider */}
-                                    <div className="border-t border-gray-100 mb-3 sm:mb-4" />
+                                    <div className="border-t border-gray-200 mb-3 sm:mb-4" />
 
                                     {/* Line Items */}
                                     <div className="space-y-2 sm:space-y-3 text-sm sm:text-base">
@@ -261,7 +263,7 @@ function Shoppingcart() {
                                     </div>
 
                                     {/* Divider */}
-                                    <div className="border-t border-gray-100 my-3 sm:my-4" />
+                                    <div className="border-t border-gray-200 my-3 sm:my-4" />
 
                                     {/* Total */}
                                     <div className="flex justify-between items-center mb-4 sm:mb-5">
@@ -275,12 +277,12 @@ function Shoppingcart() {
                                     {/* Checkout Button */}
                                     <button
                                         onClick={() => navigate('/check-out')}
-                                        className="checkout-btn w-full bg-blue-600 text-white rounded-xl py-3 sm:py-3.5 font-semibold text-sm sm:text-base flex items-center justify-center gap-2">
-                                        Proceed to Checkout
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="sm:w-[18px] sm:h-[18px]">
-                                            <line x1="5" y1="12" x2="19" y2="12" />
-                                            <polyline points="12 5 19 12 12 19" />
-                                        </svg>
+                                        className="w-full bg-indigo-600 hover:bg-indigo-700 transition text-white rounded-lg py-3 sm:py-3.5 font-semibold text-sm sm:text-base flex items-center justify-center gap-2"
+                                    >
+                                        <span>Proceed to Checkout</span>
+                                        <span className="flex items-center">
+                                            <IoArrowForwardOutline className="text-lg relative top-[1px]" />
+                                        </span>
                                     </button>
 
                                     {/* Trust Badges */}
