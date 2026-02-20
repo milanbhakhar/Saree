@@ -95,3 +95,25 @@
 .perspective-1000 {
     perspective: 1000px;
 }
+
+
+/* Thin scrollbar */
+.scrollbar-thin {
+  scrollbar-width: thin;              /* Firefox */
+  /* scrollbar-color: #cbd5e1 transparent; */
+}
+
+/* Chrome / Edge / Safari */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 4px;                         /* 👈 size */
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;          /* gray-300 */
+  border-radius: 9999px;
+}
+

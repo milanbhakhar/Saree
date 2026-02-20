@@ -24,7 +24,7 @@ export default {
       'md': "768px",
       'mx': "426px",
       'sm': "640px",
-      'dm': "992px",
+      'bm': "896px",
       'lg': "1024px",
       'xl': "1280px",
       "2xl": "1440px",
